@@ -1,0 +1,13 @@
+
+untuk mengatur kecepatan kipas angin tekan tombol :
+
+F1,F2,F3 dan F4.
+
+untuk memberhentikan gerakan ke kiri dan ke kanan kipas angin tekan tombol:
+
+F5
+
+untuk menaikan atau menurunkan kipas angin tekan tombol:
+
+page up dan page down
+
