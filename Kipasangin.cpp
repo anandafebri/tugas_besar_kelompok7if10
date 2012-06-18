@@ -176,5 +176,233 @@ glPopMatrix();
 glFlush();
 glutSwapBuffers();
 }
+void cylinder(float rbase,float rtop,float height)
+{
+float i;
+glPushMatrix();
+glTranslatef(0.0,0.0,-rbase/4);
+glutSolidCone(rbase,0,32,4);
+for(i=0;i<=height;i+=rbase/8)
+{
+glTranslatef(0.0,0.0,rbase/8);
+glutSolidTorus(rbase/4,rbase-((i*(rbase-rtop))/height),16,16);
+}
+glTranslatef(0.0,0.0,rbase/4);
+glutSolidCone(rtop,0,32,4);
+glPopMatrix();
+}
+
+void bilah (float r_inner,float r_outer,float tebal,int batang)
+{
+float i;
+glPushMatrix();
+glTranslatef(0.0,0.0,-tebal/4);
+cylinder(r_inner,r_inner,tebal);
+glTranslatef(0.0,0.0,tebal/2);
+glRotatef(90,0.0,1.0,0.0);
+for(i=0;i<batang;i++)
+{
+glTranslatef(0.0,0.0,r_inner);
+glRotatef(315,0.0,0.0,1.0);
+blok(0.5,r_inner*4.5,(r_outer-r_inner+(r_inner/4))*2);
+glRotatef(45,0.0,0.0,1.0);
+glTranslatef(0.0,0.0,-r_inner);
+glRotatef(360/batang,1.0,0.0,0.0);
+}
+glPopMatrix();
+}
+
+void blok(float tebal,int ratiol,int ratiop)
+{
+float i,j;
+glPushMatrix();
+for(i=0;i<ratiop;i++)
+{
+glTranslatef(-(ratiol+1)*tebal/2,0.0,0.0);
+for(j=0;j<ratiol;j++)
+{
+glTranslatef(tebal,0.0,0.0);
+glutSolidCube(tebal);
+}
+glTranslatef(-(ratiol-1)*tebal/2,0.0,tebal);
+}
+glPopMatrix();
+}
+
+void keyboard_s(int key,int x,int y)
+{
+if (rotation_y_plus !=0)
+direction=(rotation_y_plus/abs(rotation_y_plus));
+else
+direction=-1;
+switch(key)
+{
+case GLUT_KEY_UP:
+rotation_y_plus++;
+break;
+case GLUT_KEY_DOWN:
+rotation_y_plus--;
+break;
+case GLUT_KEY_END:
+rotation_y_plus=0;
+speed1=false;
+pressplus1=0;
+speed2=false;
+pressplus2=0;
+speed3=false;
+pressplus3=0;
+speed4=false;
+pressplus4=0;
+pressplus5=180;
+Toleh=false;
+break;
+case GLUT_KEY_F1: 
+if(speed1 == false)
+{
+rotation_y_plus=15*direction;
+speed1=true;
+pressplus1=180;
+speed2=false;
+pressplus2=0;
+speed3=false;
+pressplus3=0;
+speed4=false;
+pressplus4=0;
+if(Tolehpress == true)
+Toleh=true;
+}
+else
+{
+speed1=false;
+pressplus1=0;
+rotation_y_plus=0;
+Toleh=false;
+}
+break;
+case GLUT_KEY_F2:
+if(speed2 == false)
+{
+rotation_y_plus=30*direction;
+speed1=false;
+pressplus1=0;
+speed2=true;
+pressplus2=180;
+speed3=false;
+pressplus3=0;
+speed4=false;
+pressplus4=0;
+if(Tolehpress == true)
+Toleh=true;
+}
+else
+{
+speed2=false;
+pressplus2=0;
+rotation_y_plus=0;
+Toleh=false;
+}
+break;
+case GLUT_KEY_F3:
+if(speed3 == false)
+{
+rotation_y_plus=45*direction;
+speed1=false;
+pressplus1=0;
+speed2=false;
+pressplus2=0;
+speed3=true;
+pressplus3=180;
+speed4=false;
+pressplus4=0;
+if(Tolehpress == true)
+Toleh=true;
+}
+else
+{
+speed3=false;
+pressplus3=0;
+rotation_y_plus=0;
+Toleh=false;
+}
+break;
+case GLUT_KEY_F4:
+if(speed4 == false)
+{
+rotation_y_plus=60*direction;
+speed1=false;
+pressplus1=0;
+speed2=false;
+pressplus2=0;
+speed3=false;
+pressplus3=0;
+speed4=true;
+pressplus4=180;
+if(Tolehpress == true)
+Toleh=true;
+}
+else
+{
+speed4=false;
+pressplus4=0;
+rotation_y_plus=0;
+Toleh=false;
+}
+break;
+case GLUT_KEY_F5:
+if(Tolehpress == false)
+{
+if(speed1==true||speed2==true||speed3==true||speed4==true)
+Toleh=true;
+Tolehpress=true;
+}
+else
+{
+if(speed1==true||speed2==true||speed3==true||speed4==true)
+Toleh=false;
+Tolehpress=false;
+}
+break;
+case GLUT_KEY_RIGHT:
+Rheadplus++;
+Turn++;
+break;
+case GLUT_KEY_LEFT:
+Rheadplus--;
+Turn--;
+break;
+case GLUT_KEY_PAGE_UP:
+Anggukplus--;
+break;
+case GLUT_KEY_PAGE_DOWN:
+Anggukplus++;
+break;
+}
+}
+
+void Mouse_s(int button, int state, int x, int y)
+{
+if (state==0 && button==0)
+All_plus--;
+if (state==0 && button==2)
+All_plus++;
+}
+
+
+int main(int argc,char **argv)
+{
+glutInit(&argc,argv);
+glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
+glutInitWindowSize(screen_width,screen_height);
+glutInitWindowPosition(0,0);
+glutCreateWindow("grafika komputer if 10 kelompok 7");
+glutDisplayFunc(display);
+glutIdleFunc(display);
+glutReshapeFunc(resize);
+glutSpecialFunc(keyboard_s);
+glutMouseFunc(Mouse_s);
+init();
+glutMainLoop();
+return(0);
+}
 
 
